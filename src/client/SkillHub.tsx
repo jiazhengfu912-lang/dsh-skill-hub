@@ -3,7 +3,7 @@
  * picker, plus the highlighted chip that records the current selection.
  */
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ConnectionHandle } from '@deepseek-ai/dsh-api-remotes/client'
 import css from './styles.module.css'
 
@@ -21,6 +21,16 @@ export function SkillHub({ sessionId, connection }: { sessionId: string; connect
   const [skills, setSkills] = useState<SkillEntry[]>([])
   const [selected, setSelected] = useState<string | null>(null)
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
+  const wrapRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onDown = (e: PointerEvent) => {
+      if (wrapRef.current !== null && !wrapRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('pointerdown', onDown)
+    return () => { document.removeEventListener('pointerdown', onDown) }
+  }, [open])
 
   const load = useCallback(async () => {
     if (connection === undefined) { setStatus('error'); return }
@@ -46,7 +56,7 @@ export function SkillHub({ sessionId, connection }: { sessionId: string; connect
   const pick = (name: string) => { setSelected(name); setOpen(false) }
 
   return (
-    <div className={css.wrap}>
+    <div className={css.wrap} ref={wrapRef}>
       {selected !== null && (
         <span className={css.chip} title="已选中 skill，点击取消" onClick={() => { setSelected(null) }}>{selected}</span>
       )}
