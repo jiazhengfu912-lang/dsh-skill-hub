@@ -1,0 +1,7 @@
+# Skill-hub — self-contained profile patch: a browser-only composer control
+# (Host half is an empty loader entry; the browser half registers into
+# `conversation.input.left` via the package's `dsh.client` declaration).
+
+- insert:
+    - id: skill-hub
+      name: '@deepseek-ai/dsh-skill-hub'
