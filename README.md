@@ -1,5 +1,7 @@
 # Skill-hub
 
+English | [中文](README.zh.md)
+
 A composer control for the [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) Web UI. It adds a **Skill-hub** button beside the composer's `+` that lists the session's available skills and pins the selected skill's name as a highlighted chip.
 
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
